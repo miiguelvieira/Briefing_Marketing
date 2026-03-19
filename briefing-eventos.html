@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Eventos Corporativos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F2ED;
+    --surface: #FFFFFF;
+    --surface2: #F0ECE5;
+    --border: #E2DDD5;
+    --border-strong: #C8C0B4;
+    --text: #1A1714;
+    --text-2: #6B6560;
+    --text-3: #9E9890;
+    --accent: #2C4A3E;
+    --accent-light: #E8F0ED;
+    --accent-mid: #4A7A68;
+    --danger: #C0392B;
+    --danger-light: #FDF0EE;
+    --warn: #A0522D;
+    --warn-light: #FDF5EE;
+    --success: #2C4A3E;
+    --success-light: #E8F0ED;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* Header */
+  .site-header {
+    background: var(--accent);
+    padding: 28px 0 24px;
+    margin-bottom: 40px;
+  }
+  .header-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .header-text p {
+    font-size: 13px;
+    color: rgba(255,255,255,.65);
+    font-weight: 300;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    max-width: 680px;
+    margin: 0 auto 32px;
+    padding: 0 24px;
+  }
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .prog-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    position: relative;
+  }
+  .prog-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-3);
+    transition: all .3s;
+    z-index: 1;
+  }
+  .prog-dot.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .prog-dot.done { background: var(--accent-mid); border-color: var(--accent-mid); color: #fff; }
+  .prog-dot.done::after { content: '✓'; font-size: 13px; }
+  .prog-dot.done span { display: none; }
+  .prog-name {
+    font-size: 10px;
+    color: var(--text-3);
+    font-weight: 500;
+    letter-spacing: .03em;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .prog-name.active { color: var(--accent); font-weight: 600; }
+  .prog-line {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    margin-top: -22px;
+    transition: background .3s;
+  }
+  .prog-line.done { background: var(--accent-mid); }
+
+  /* Container */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Step */
+  .step { display: none; }
+  .step.active { display: block; animation: fadeUp .3s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section card */
+  .form-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-num {
+    width: 28px;
+    height: 28px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--text);
+  }
+
+  /* Step heading */
+  .step-heading {
+    margin-bottom: 24px;
+  }
+  .step-heading h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .step-heading p {
+    font-size: 14px;
+    color: var(--text-2);
+    font-weight: 300;
+  }
+
+  /* Fields */
+  .field { margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  label.lbl {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .req { color: var(--danger); margin-left: 3px; }
+  input[type=text], input[type=date], input[type=email], textarea, select {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    -webkit-appearance: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(44,74,62,.12);
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-3); }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%236B6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* Radio / checkbox pills */
+  .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 30px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all .18s;
+    user-select: none;
+  }
+  .pill:hover { border-color: var(--accent-mid); color: var(--text); }
+  .pill.selected { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .pill-check {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 9px;
+  }
+  .pill.selected .pill-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* Toggle (Sim/Não) */
+  .toggle-group { display: flex; gap: 8px; }
+  .toggle-btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .toggle-btn:hover { border-color: var(--accent-mid); }
+  .toggle-btn.yes.on { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.no.on { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+
+  /* Collapsible sub-section */
+  .sub-section {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .35s ease, opacity .25s;
+    opacity: 0;
+  }
+  .sub-section.open { max-height: 600px; opacity: 1; }
+  .sub-inner { padding-top: 16px; border-top: 1px dashed var(--border); margin-top: 16px; }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 11px 22px;
+    border: 1.5px solid transparent;
+    transition: all .18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #1e3529; border-color: #1e3529; }
+  .btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+  .btn-gmail { background: #fff; color: #C5221F; border-color: #E8C0BF; }
+  .btn-gmail:hover { background: #fdf0ee; }
+  .btn-outlook { background: #0078D4; color: #fff; border-color: #0078D4; }
+  .btn-outlook:hover { background: #006BBE; border-color: #006BBE; }
+  .btn-copy { background: var(--surface2); color: var(--text-2); border-color: var(--border); }
+  .btn-copy:hover { background: var(--border); color: var(--text); }
+
+  /* Error */
+  .err { font-size: 12px; color: var(--danger); margin-top: 6px; display: none; }
+  .field-err input, .field-err textarea, .field-err select { border-color: var(--danger); }
+
+  /* Review */
+  .review-block { margin-bottom: 12px; }
+  .review-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+  .review-rows { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .review-row { display: flex; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .review-row:last-child { border-bottom: none; }
+  .rk { color: var(--text-2); min-width: 150px; font-weight: 500; flex-shrink: 0; }
+  .rv { color: var(--text); flex: 1; }
+
+  .email-preview {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    max-height: 280px;
+    overflow-y: auto;
+    margin-bottom: 0;
+  }
+
+  /* Success screen */
+  .success-screen { text-align: center; padding: 60px 20px; }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: var(--success-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+  }
+  .success-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .success-screen p { font-size: 14px; color: var(--text-2); margin-bottom: 28px; max-width: 360px; margin-left: auto; margin-right: auto; }
+
+  /* Recipient chips */
+  .recipient-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .recipient-chip {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .recipient-chip:hover { border-color: var(--accent-mid); }
+  .recipient-chip.selected { background: var(--accent-light); border-color: var(--accent); }
+  .chip-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .chip-info { flex: 1; }
+  .chip-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .chip-role { font-size: 12px; color: var(--text-2); }
+  .chip-email { font-size: 11px; color: var(--text-3); }
+  .chip-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all .18s;
+  }
+  .recipient-chip.selected .chip-check { background: var(--accent); border-color: var(--accent); }
+  .no-email-tag { font-size: 10px; background: var(--warn-light); color: var(--warn); padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+
+  /* Warn banner */
+  .banner {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 16px; border-radius: var(--radius);
+    font-size: 13px; margin-bottom: 16px;
+    border: 1px solid;
+  }
+  .banner.info { background: var(--accent-light); color: var(--accent); border-color: #b2cdc5; }
+  .banner.warn { background: var(--warn-light); color: var(--warn); border-color: #e8c5a0; }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* Scroll to top on step change */
+  html { scroll-behavior: smooth; }
+
+  /* Footer note */
+  .footer-note { text-align: center; font-size: 11px; color: var(--text-3); margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Briefing de Evento</h1>
+      <p>Preencha o formulário — enviaremos para o responsável automaticamente</p>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Progress -->
+  <div class="progress-wrap" style="padding:0">
+    <div class="progress-bar" id="prog-bar">
+      <div class="prog-item">
+        <div class="prog-dot active" id="pd1"><span>1</span></div>
+        <div class="prog-name active" id="pn1">Dados</div>
+      </div>
+      <div class="prog-line" id="pl1"></div>
+      <div class="prog-item">
+        <div class="prog-dot" id="pd2"><span>2</span></div>
+        <div class="prog-name" id="pn2">Estrutura</div>
+      </div>
+      <div class="prog-line" id="pl2"></div>
+      <div class="prog-item">
+        <div class="prog-dot" id="pd3"><span>3</span></div>
+        <div class="prog-name" id="pn3">Serviços</div>
+      </div>
+      <div class="prog-line" id="pl3"></div>
+      <div class="prog-item">
+        <div class="prog-dot" id="pd4"><span>4</span></div>
+        <div class="prog-name" id="pn4">Responsável</div>
+      </div>
+      <div class="prog-line" id="pl4"></div>
+      <div class="prog-item">
+        <div class="prog-dot" id="pd5"><span>5</span></div>
+        <div class="prog-name" id="pn5">Enviar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 1 ===================== -->
+  <div class="step active" id="step1">
+    <div class="step-heading">
+      <h2>Dados Gerais</h2>
+      <p>Informações básicas sobre o evento que será realizado</p>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-num">1</div>
+        <div class="card-title">Identificação</div>
+      </div>
+
+      <div class="two-col">
+        <div class="field" id="f-area">
+          <label class="lbl">Área solicitante <span class="req">*</span></label>
+          <input type="text" id="area" placeholder="Ex: RH, Marketing…">
+          <div class="err" id="err-area">Campo obrigatório</div>
+        </div>
+        <div class="field" id="f-tema">
+          <label class="lbl">Tema do evento <span class="req">*</span></label>
+          <input type="text" id="tema" placeholder="Ex: Summit de Inovação 2025">
+          <div class="err" id="err-tema">Campo obrigatório</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field" id="f-data">
+          <label class="lbl">Data prevista <span class="req">*</span></label>
+          <input type="date" id="data">
+          <div class="err" id="err-data">Campo obrigatório</div>
+        </div>
+        <div class="field">
+          <label class="lbl">Local / Plataforma</label>
+          <input type="text" id="local" placeholder="Ex: Auditório Central / Zoom">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lbl">Formato do evento</label>
+        <div class="pill-group" id="formato-group">
+          <div class="pill" onclick="setPill('formato','Online',this,true)">
+            <div class="pill-check"></div> Online
+          </div>
+          <div class="pill" onclick="setPill('formato','Presencial',this,true)">
+            <div class="pill-check"></div> Presencial
+          </div>
+          <div class="pill" onclick="setPill('formato','Híbrido',this,true)">
+            <div class="pill-check"></div> Híbrido
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lbl">Tipo de evento</label>
+        <div class="pill-group" id="tipo-group">
+          <div class="pill" onclick="setPill('tipo','Relacionamento',this,true)"><div class="pill-check"></div> Relacionamento</div>
+          <div class="pill" onclick="setPill('tipo','Científico',this,true)"><div class="pill-check"></div> Científico</div>
+          <div class="pill" onclick="setPill('tipo','Resp. Social',this,true)"><div class="pill-check"></div> Resp. Social</div>
+          <div class="pill" onclick="setPill('tipo','Esportivo',this,true)"><div class="pill-check"></div> Esportivo</div>
+          <div class="pill" onclick="setPill('tipo','Outro',this,true)"><div class="pill-check"></div> Outro</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goStep(2)">
+        Continuar
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 2 ===================== -->
+  <div class="step" id="step2">
+    <div class="step-heading">
+      <h2>Infraestrutura e Logística</h2>
+      <p>Recursos técnicos e operacionais necessários</p>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-num">2</div>
+        <div class="card-title">Infraestrutura e Tecnologia</div>
+      </div>
+
+      <div class="field">
+        <label class="lbl">Recursos necessários</label>
+        <div class="pill-group" id="recursos-group">
+          <div class="pill" onclick="togglePill('recursos','Microfone',this)"><div class="pill-check"></div> Microfone</div>
+          <div class="pill" onclick="togglePill('recursos','Transmissão',this)"><div class="pill-check"></div> Transmissão</div>
+          <div class="pill" onclick="togglePill('recursos','Projeção',this)"><div class="pill-check"></div> Projeção</div>
+          <div class="pill" onclick="togglePill('recursos','Painel LED',this)"><div class="pill-check"></div> Painel LED</div>
+          <div class="pill" onclick="togglePill('recursos','Sonorização',this)"><div class="pill-check"></div> Sonorização</div>
+          <div class="pill" onclick="togglePill('recursos','Fotografia',this)"><div class="pill-check"></div> Fotografia</div>
+          <div class="pill" onclick="togglePill('recursos','Filmagem',this)"><div class="pill-check"></div> Filmagem</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lbl">Outros recursos</label>
+        <input type="text" id="recursos_outros" placeholder="Descreva outros recursos necessários…">
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="lbl">Nº estimado de participantes</label>
+          <input type="text" id="participantes" placeholder="Ex: 150 pessoas">
+        </div>
+        <div class="field">
+          <label class="lbl">Unidade / Centro de custo</label>
+          <input type="text" id="centro_custo" placeholder="Ex: CC-0042">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-num">3</div>
+        <div class="card-title">Alimentos e Bebidas</div>
+      </div>
+
+      <div class="field">
+        <label class="lbl">Haverá alimentação no evento?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn yes" onclick="setToggle('alimentacao','Sim',this);toggleSection('ab-sec',true)">Sim</button>
+          <button class="toggle-btn no" onclick="setToggle('alimentacao','Não',this);toggleSection('ab-sec',false)">Não</button>
+        </div>
+      </div>
+
+      <div class="sub-section" id="ab-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Tipo de alimentação</label>
+            <div class="pill-group">
+              <div class="pill" onclick="togglePill('ab','Coffee break',this)"><div class="pill-check"></div> Coffee break</div>
+              <div class="pill" onclick="togglePill('ab','Almoço',this)"><div class="pill-check"></div> Almoço</div>
+              <div class="pill" onclick="togglePill('ab','Happy hour',this)"><div class="pill-check"></div> Happy hour</div>
+              <div class="pill" onclick="togglePill('ab','Jantar',this)"><div class="pill-check"></div> Jantar</div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="lbl">Observações (restrições, preferências…)</label>
+            <textarea id="ab_obs" placeholder="Ex: vegetarianos, sem glúten…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="goStep(3)">
+        Continuar
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 3 ===================== -->
+  <div class="step" id="step3">
+    <div class="step-heading">
+      <h2>Comunicação e Serviços</h2>
+      <p>Materiais de divulgação e serviços adicionais</p>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-num">4</div>
+        <div class="card-title">Comunicação e Materiais</div>
+      </div>
+
+      <div class="field">
+        <label class="lbl">Precisa de convite ou materiais de divulgação?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn yes" onclick="setToggle('convite','Sim',this);toggleSection('convite-sec',true)">Sim</button>
+          <button class="toggle-btn no" onclick="setToggle('convite','Não',this);toggleSection('convite-sec',false)">Não</button>
+        </div>
+      </div>
+      <div class="sub-section" id="convite-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Especificar materiais</label>
+            <input type="text" id="materiais" placeholder="Ex: banner digital, convite, flyer…">
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="field">
+        <label class="lbl">Plataforma de inscrição / RSVP?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn yes" onclick="setToggle('rsvp','Sim',this)">Sim</button>
+          <button class="toggle-btn no" onclick="setToggle('rsvp','Não',this)">Não</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-num">5</div>
+        <div class="card-title">Serviços Adicionais</div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="lbl">Produtora de eventos?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn yes" onclick="setToggle('produtora','Sim',this);toggleSection('prod-sec',true)">Sim</button>
+            <button class="toggle-btn no" onclick="setToggle('produtora','Não',this);toggleSection('prod-sec',false)">Não</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Mestre de cerimônia?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn yes" onclick="setToggle('mc','Sim',this)">Sim</button>
+            <button class="toggle-btn no" onclick="setToggle('mc','Não',this)">Não</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-section" id="prod-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Nome / contato da produtora</label>
+            <input type="text" id="produtora_nome" placeholder="Nome e contato…">
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="lbl">Recepcionistas?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn yes" onclick="setToggle('recep','Sim',this);toggleSection('recep-sec',true)">Sim</button>
+            <button class="toggle-btn no" onclick="setToggle('recep','Não',this);toggleSection('recep-sec',false)">Não</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Brindes?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn yes" onclick="setToggle('brindes','Sim',this);toggleSection('brindes-sec',true)">Sim</button>
+            <button class="toggle-btn no" onclick="setToggle('brindes','Não',this);toggleSection('brindes-sec',false)">Não</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-section" id="recep-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Quantidade de recepcionistas</label>
+            <input type="text" id="recep_qtd" placeholder="Ex: 3">
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-section" id="brindes-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Descrição dos brindes</label>
+            <input type="text" id="brindes_desc" placeholder="Descreva os brindes previstos…">
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="two-col">
+        <div class="field">
+          <label class="lbl">Patrocínio?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn yes" onclick="setToggle('patrocinio','Sim',this);toggleSection('pat-sec',true)">Sim</button>
+            <button class="toggle-btn no" onclick="setToggle('patrocinio','Não',this);toggleSection('pat-sec',false)">Não</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="lbl">Mobiliário e decoração?</label>
+          <div class="toggle-group">
+            <button class="toggle-btn yes" onclick="setToggle('decoracao','Sim',this);toggleSection('deco-sec',true)">Sim</button>
+            <button class="toggle-btn no" onclick="setToggle('decoracao','Não',this);toggleSection('deco-sec',false)">Não</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-section" id="pat-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Quem patrocina?</label>
+            <input type="text" id="patrocinio_quem" placeholder="Nome do patrocinador…">
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-section" id="deco-sec">
+        <div class="sub-inner">
+          <div class="field">
+            <label class="lbl">Especificações de decoração</label>
+            <textarea id="deco_spec" placeholder="Estilo, peças, referências…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="goStep(4)">
+        Continuar
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 4 ===================== -->
+  <div class="step" id="step4">
+    <div class="step-heading">
+      <h2>Quem receberá o briefing?</h2>
+      <p>Selecione o(s) responsável(eis) por este evento</p>
+    </div>
+
+    <div class="form-card">
+      <div class="banner info">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Os e-mails marcados como <strong>"sem e-mail"</strong> não receberão a mensagem. Peça ao administrador que atualize os contatos no arquivo.
+      </div>
+
+      <div class="recipient-list" id="recipient-list">
+        <!-- rendered by JS -->
+      </div>
+      <div class="err" id="err-recip" style="display:none;margin-top:8px">Selecione ao menos um responsável.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(3)">← Voltar</button>
+      <button class="btn btn-primary" onclick="goStep(5)">
+        Revisar e enviar
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 5 ===================== -->
+  <div class="step" id="step5">
+    <div class="step-heading">
+      <h2>Revisar e Enviar</h2>
+      <p>Confira tudo antes de disparar o e-mail</p>
+    </div>
+
+    <div class="form-card">
+      <div class="review-block">
+        <div class="review-label">Resumo do briefing</div>
+        <div class="review-rows" id="review-rows"></div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header" style="margin-bottom:16px">
+        <div class="card-num">✉</div>
+        <div class="card-title">Prévia do e-mail</div>
+      </div>
+      <div class="email-preview" id="email-preview"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goStep(4)">← Voltar</button>
+      <button class="btn btn-gmail" onclick="openGmail()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#C5221F" stroke-width="1.8"/><path d="M2 8l10 6 10-6" stroke="#C5221F" stroke-width="1.8"/></svg>
+        Abrir no Gmail
+      </button>
+      <button class="btn btn-outlook" onclick="openOutlook()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="white" stroke-width="1.8"/><path d="M2 8l10 6 10-6" stroke="white" stroke-width="1.8"/></svg>
+        Abrir no Outlook
+      </button>
+      <button class="btn btn-copy" onclick="copyEmail()" id="btn-copy">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span id="copy-txt">Copiar texto</span>
+      </button>
+    </div>
+
+    <p class="footer-note" style="margin-top:20px">Ao clicar em "Abrir no Gmail" ou "Abrir no Outlook", seu cliente de e-mail abrirá um rascunho já preenchido. Basta revisar e clicar em Enviar.</p>
+  </div>
+
+</div><!-- /container -->
+
+<p class="footer-note">Briefing de Eventos Corporativos</p>
+
+<script>
+// ─────────────── CONFIGURAÇÃO DA EQUIPE ───────────────
+// Edite esta lista para adicionar/remover membros da equipe.
+// Deixe o campo "email" em branco se ainda não foi definido.
+const TEAM = [
+  { name: "Miguel Vieira", role: "Analista / Marketing", email: "miguel.vieiraa@rededor.com.br", color: "#D4EDE6", text: "#1A4A3A" },
+  { name: "Thereza", role: "Analista / Marketing", email: "thereza.garcia@rededor.com.br", color: "#EDE4D4", text: "#4A3A1A" },
+  { name: "Luciana", role: "Analista / Marketing", email: "luciana.aguiar@rededor.com.br", color: "#D4D8ED", text: "#1A2060" },
+  { name: "Responsável 4", role: "Cargo / Área", email: "", color: "#EDD4D4", text: "#4A1A1A" },
+  { name: "Responsável 5", role: "Cargo / Área", email: "", color: "#D4EDE6", text: "#1A4A3A" },
+];
+// ──────────────────────────────────────────────────────
+
+const state = {
+  area:'', tema:'', data:'', local:'', formato:'', tipo:'',
+  recursos:[], recursos_outros:'', participantes:'', centro_custo:'',
+  alimentacao:'', ab:[], ab_obs:'',
+  convite:'', materiais:'', rsvp:'',
+  produtora:'', produtora_nome:'', mc:'',
+  recep:'', recep_qtd:'', brindes:'', brindes_desc:'',
+  patrocinio:'', patrocinio_quem:'', decoracao:'', deco_spec:''
+};
+
+let selectedRecipients = [];
+let curStep = 1;
+
+function setPill(field, val, el, radio) {
+  if(radio) el.closest('.pill-group').querySelectorAll('.pill').forEach(p=>p.classList.remove('selected'));
+  el.classList.toggle('selected');
+  if(radio) state[field] = el.classList.contains('selected') ? val : '';
+}
+
+function togglePill(field, val, el) {
+  el.classList.toggle('selected');
+  if(el.classList.contains('selected')){ if(!state[field].includes(val)) state[field].push(val); }
+  else { state[field] = state[field].filter(x=>x!==val); }
+}
+
+function setToggle(field, val, el) {
+  state[field] = val;
+  const group = el.closest('.toggle-group');
+  group.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function toggleSection(id, open) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open', open);
+}
+
+function initials(name) { return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+
+function renderRecipients() {
+  document.getElementById('recipient-list').innerHTML = TEAM.map((m,i) => `
+    <div class="recipient-chip ${selectedRecipients.includes(i)?'selected':''}" onclick="toggleRecip(${i})">
+      <div class="chip-avatar" style="background:${m.color};color:${m.text}">${initials(m.name)}</div>
+      <div class="chip-info">
+        <div class="chip-name">${m.name}</div>
+        <div class="chip-role">${m.role}</div>
+        <div class="chip-email">${m.email || '<span class="no-email-tag">sem e-mail</span>'}</div>
+      </div>
+      <div class="chip-check">
+        ${selectedRecipients.includes(i)?'<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}
+      </div>
+    </div>`).join('');
+}
+
+function toggleRecip(i) {
+  if(selectedRecipients.includes(i)) selectedRecipients = selectedRecipients.filter(x=>x!==i);
+  else selectedRecipients.push(i);
+  renderRecipients();
+  document.getElementById('err-recip').style.display = 'none';
+}
+
+function fmt(d) {
+  if(!d) return '—';
+  try { return new Date(d+'T12:00:00').toLocaleDateString('pt-BR'); } catch(e){ return d; }
+}
+
+function row(k,v) {
+  if(!v || v==='Não' || v==='') return '';
+  return `<div class="review-row"><span class="rk">${k}</span><span class="rv">${v}</span></div>`;
+}
+
+function buildReview() {
+  const s = state;
+  const recips = selectedRecipients.map(i=>TEAM[i]);
+  const rows = [
+    row('Área solicitante', s.area),
+    row('Tema', s.tema),
+    row('Data prevista', fmt(s.data)),
+    row('Local / Plataforma', s.local),
+    row('Formato', s.formato),
+    row('Tipo de evento', s.tipo),
+    s.recursos.length ? row('Recursos', s.recursos.join(', ')) : '',
+    row('Outros recursos', s.recursos_outros),
+    row('Participantes', s.participantes),
+    row('Centro de custo', s.centro_custo),
+    s.alimentacao==='Sim' ? row('Alimentação', s.ab.length ? s.ab.join(', ') : 'Sim') : '',
+    row('Obs. A&B', s.ab_obs),
+    s.convite==='Sim' ? row('Materiais', s.materiais||'A definir') : '',
+    row('RSVP', s.rsvp),
+    s.produtora==='Sim' ? row('Produtora', s.produtora_nome||'Sim') : '',
+    row('Mestre de cerimônia', s.mc),
+    s.recep==='Sim' ? row('Recepcionistas', s.recep_qtd ? s.recep_qtd+' pessoas' : 'Sim') : '',
+    s.brindes==='Sim' ? row('Brindes', s.brindes_desc||'Sim') : '',
+    s.patrocinio==='Sim' ? row('Patrocínio', s.patrocinio_quem||'Sim') : '',
+    s.decoracao==='Sim' ? row('Decoração', s.deco_spec||'Sim') : '',
+    `<div class="review-row"><span class="rk">Destinatário(s)</span><span class="rv">${recips.map(m=>m.name).join(', ')}</span></div>`
+  ].filter(Boolean).join('');
+  document.getElementById('review-rows').innerHTML = rows;
+}
+
+function buildEmailBody() {
+  const s = state;
+  const recips = selectedRecipients.map(i=>TEAM[i]);
+  const firstName = recips.length === 1 ? ', ' + recips[0].name.split(' ')[0] : '';
+  let body = `Olá${firstName},\n\nSegue o briefing do evento para sua análise e providências. Por favor, confirme o recebimento.\n\n`;
+  body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nBRIEFING — EVENTO CORPORATIVO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  body += `DADOS GERAIS\n`;
+  if(s.area) body += `Área solicitante: ${s.area}\n`;
+  if(s.tema) body += `Tema: ${s.tema}\n`;
+  if(s.data) body += `Data prevista: ${fmt(s.data)}\n`;
+  if(s.local) body += `Local / Plataforma: ${s.local}\n`;
+  if(s.formato) body += `Formato: ${s.formato}\n`;
+  if(s.tipo) body += `Tipo: ${s.tipo}\n`;
+  if(s.participantes) body += `Participantes estimados: ${s.participantes}\n`;
+  if(s.centro_custo) body += `Centro de custo: ${s.centro_custo}\n`;
+  if(s.recursos.length || s.recursos_outros) {
+    body += `\nINFRAESTRUTURA E TECNOLOGIA\n`;
+    if(s.recursos.length) body += `Recursos: ${s.recursos.join(', ')}\n`;
+    if(s.recursos_outros) body += `Outros: ${s.recursos_outros}\n`;
+  }
+  if(s.alimentacao === 'Sim') {
+    body += `\nALIMENTOS E BEBIDAS\n`;
+    body += `Alimentação: ${s.ab.length ? s.ab.join(', ') : 'Sim'}\n`;
+    if(s.ab_obs) body += `Observações: ${s.ab_obs}\n`;
+  }
+  const commItems = [];
+  if(s.convite==='Sim') commItems.push('Convite/Materiais: '+(s.materiais||'A definir'));
+  if(s.rsvp==='Sim') commItems.push('Plataforma RSVP: Sim');
+  if(commItems.length) body += `\nCOMUNICAÇÃO E MATERIAIS\n${commItems.join('\n')}\n`;
+  const srvItems = [];
+  if(s.produtora==='Sim') srvItems.push('Produtora de eventos: '+(s.produtora_nome||'Sim'));
+  if(s.mc==='Sim') srvItems.push('Mestre de cerimônia: Sim');
+  if(s.recep==='Sim') srvItems.push('Recepcionistas: '+(s.recep_qtd||'Sim'));
+  if(s.brindes==='Sim') srvItems.push('Brindes: '+(s.brindes_desc||'Sim'));
+  if(s.patrocinio==='Sim') srvItems.push('Patrocínio: '+(s.patrocinio_quem||'Sim'));
+  if(s.decoracao==='Sim') srvItems.push('Decoração: '+(s.deco_spec||'Sim'));
+  if(srvItems.length) body += `\nSERVIÇOS ADICIONAIS\n${srvItems.join('\n')}\n`;
+  body += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nEm caso de dúvidas, responda este e-mail.\n\nObrigado(a)!`;
+  return body;
+}
+
+function getMailData() {
+  const recips = selectedRecipients.map(i=>TEAM[i]).filter(m=>m.email);
+  const to = recips.map(m=>m.email).join(',');
+  const subject = encodeURIComponent('[Briefing] ' + (state.tema||'Evento') + ' — ' + fmt(state.data));
+  const body = encodeURIComponent(buildEmailBody());
+  return { to, subject, body };
+}
+
+function openGmail() {
+  const { to, subject, body } = getMailData();
+  window.open(`https://mail.google.com/mail/?view=cm&to=${to}&su=${subject}&body=${body}`, '_blank');
+}
+function openOutlook() {
+  const { to, subject, body } = getMailData();
+  window.open(`https://outlook.office.com/mail/deeplink/compose?to=${to}&subject=${subject}&body=${body}`, '_blank');
+}
+function copyEmail() {
+  navigator.clipboard.writeText(buildEmailBody()).then(() => {
+    document.getElementById('copy-txt').textContent = '✓ Copiado!';
+    setTimeout(() => document.getElementById('copy-txt').textContent = 'Copiar texto', 2200);
+  });
+}
+
+function validateStep1() {
+  let ok = true;
+  ['area','tema','data'].forEach(f => {
+    const el = document.getElementById(f);
+    const err = document.getElementById('err-'+f);
+    const wrap = document.getElementById('f-'+f);
+    if(!el.value.trim()) {
+      err.style.display = 'block';
+      wrap.classList.add('field-err');
+      ok = false;
+    } else {
+      err.style.display = 'none';
+      wrap.classList.remove('field-err');
+    }
+  });
+  return ok;
+}
+
+function syncState() {
+  ['area','tema','data','local','recursos_outros','participantes','centro_custo',
+   'ab_obs','materiais','produtora_nome','recep_qtd','brindes_desc','patrocinio_quem','deco_spec'
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) state[id] = el.value;
+  });
+}
+
+function goStep(n) {
+  syncState();
+  if(n === 2 && !validateStep1()) return;
+  if(n === 5 && selectedRecipients.length === 0) {
+    document.getElementById('err-recip').style.display = 'block'; return;
+  }
+  if(n === 4) renderRecipients();
+  if(n === 5) {
+    buildReview();
+    document.getElementById('email-preview').textContent = buildEmailBody();
+  }
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  curStep = n;
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(n) {
+  for(let i=1;i<=5;i++){
+    const dot = document.getElementById('pd'+i);
+    const lbl = document.getElementById('pn'+i);
+    dot.className = 'prog-dot' + (i<n?' done':i===n?' active':'');
+    if(i<n){ dot.innerHTML=''; } else { dot.innerHTML=`<span>${i}</span>`; }
+    lbl.className = 'prog-name' + (i===n?' active':'');
+    if(i<5) document.getElementById('pl'+i).className='prog-line'+(i<n?' done':'');
+  }
+}
+</script>
+</body>
+</html>
